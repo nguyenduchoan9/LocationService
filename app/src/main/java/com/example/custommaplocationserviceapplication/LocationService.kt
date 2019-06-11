@@ -51,7 +51,9 @@ class LocationService : Service() {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-//        startForeground(MyNotificationManager.NOTIFICATION_ID, MyNotificationManager.getNotification(this))
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            startForeground(MyNotificationManager.NOTIFICATION_ID, MyNotificationManager.getNotification(this))
+        }
         return START_NOT_STICKY
     }
 
@@ -60,7 +62,6 @@ class LocationService : Service() {
     }
 
     override fun onUnbind(intent: Intent?): Boolean {
-//        startForeground(MyNotificationManager.NOTIFICATION_ID, MyNotificationManager.getNotification(this))
         return true
     }
 
