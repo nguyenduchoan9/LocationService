@@ -8,9 +8,9 @@ import android.arch.lifecycle.OnLifecycleEvent
 import android.content.ComponentName
 import android.content.Context
 import android.content.ServiceConnection
-import android.os.Build
 import android.os.Bundle
 import android.os.IBinder
+import android.support.v4.content.ContextCompat
 import android.util.Log
 
 class ActivityLifecycleTracker(private val context: Context) : Application.ActivityLifecycleCallbacks,
@@ -53,11 +53,7 @@ class ActivityLifecycleTracker(private val context: Context) : Application.Activ
         if (activityStarted == 0 && mBound) {
             // app went to background
             // Unbind to LocationService and start foreground service
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                context.startForegroundService(LocationService.createIntent(context))
-            } else {
-                context.startService(LocationService.createIntent(context))
-            }
+            ContextCompat.startForegroundService(context, LocationService.createIntent(context))
             context.unbindService(connection)
             mBound = false
             mService = null
